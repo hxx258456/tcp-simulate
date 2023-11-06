@@ -1,11 +1,12 @@
-package shake
+package client
 
-import "tcp-simulate/message"
+import (
+	"net"
+	"tcp-simulate/message"
+)
 
 const (
-	closed      int8 = iota // 关闭
-	SYN_SENT                // 同步已发送
-	ESTABLISHED             // 建立连接成功
+	SYN_SENT = iota
 )
 
 type Client interface {
@@ -15,6 +16,7 @@ type Client interface {
 
 type client struct {
 	state int8
+	conn  net.Conn
 }
 
 func (c *client) Recv() {
@@ -22,11 +24,15 @@ func (c *client) Recv() {
 }
 
 func (c *client) Send(msg message.Message) {
-
 }
 
 func NewClient() Client {
+	conn, err := net.Dial("tcp", "127.0.0.1:8087")
+	if err != nil {
+		panic(err)
+	}
 	return &client{
 		state: SYN_SENT,
+		conn:  conn,
 	}
 }

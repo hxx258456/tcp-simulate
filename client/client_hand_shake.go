@@ -24,6 +24,10 @@ func (c *client) Recv() {
 }
 
 func (c *client) Send(msg message.Message) {
+	_, err := c.conn.Write([]byte("hello"))
+	if err != nil {
+		panic(err)
+	}
 }
 
 func NewClient() Client {

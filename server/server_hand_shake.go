@@ -26,6 +26,7 @@ func (s *server) Listen() {
 		if err != nil {
 			panic(err)
 		}
+		println("accept in addr: ", conn.LocalAddr().String())
 		s.HandleClient(conn)
 	}
 }
@@ -44,7 +45,7 @@ func (s *server) HandleClient(conn net.Conn) {
 }
 
 func NewServer() Server {
-	listener, err := net.Listen("tcp", "0.0.0.0:8087")
+	listener, err := net.Listen("tcp", ":8087")
 	if err != nil {
 		panic(err)
 	}
